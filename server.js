@@ -4,5 +4,5 @@ const app = express();
 app.use(express.static(__dirname + '/dist/walter'));
 app.get('/*', function(req,res) {
 res.sendFile(path.join(__dirname+
-'/dist/WALTER/index.html'));});
-app.listen(process.env.PORT || 8080);
+'/dist/walter/index.html'));});
+app.listen(process.env.PORT || 4300);
