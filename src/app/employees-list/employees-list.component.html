@@ -1,0 +1,117 @@
+<app-meni></app-meni>
+<div class="ui segment">
+  <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()">
+    <div class="ui grid">
+      <div class="row">
+        <div class="fourteen wide column">
+          <div class="ui fluid icon input">
+            <input
+              type="text"
+              placeholder="Add employee..."
+              formControlName="name"
+            />
+            <i class="user icon"></i>
+          </div>
+        </div>
+        <div class="two wide column">
+          <button
+            class="ui button"
+            type="submit"
+            [disabled]="addEmployeeForm.invalid"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form [formGroup]="searchEmployeeForm">
+    <div class="ui grid">
+      <div class="row">
+        <div class="fourteen wide column">
+          <div class="ui fluid icon input">
+            <input
+              type="text"
+              placeholder="Searh employee..."
+              formControlName="searchName"
+            />
+            <i class="search icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ng-container *ngIf="(employees | async).length > 0">
+    <div class="ui segment">
+      <h3>List of employees:</h3>
+      <div class="ui relaxed divided list">
+        <div
+          class="item"
+          *ngFor="
+            let employee of employees
+              | async
+              | searchfilter: searchEmployeeForm.controls.searchName.value;
+            let i = index
+          "
+        >
+          <ng-container *ngIf="i !== (mode | async)">
+            <div class="employee">
+              <div class="employee-content">
+                <div class="content">
+                  <div class="description">
+                    {{ i + 1 }}. {{ employee | titlecase }}
+                  </div>
+                </div>
+              </div>
+              <div class="employee-buttons">
+                <button class="ui button" (click)="editEmployee(i)">
+                  Edit
+                </button>
+                <button class="ui button" (click)="deleteEmployee(employee)">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="i === (mode | async)">
+            <div class="employee">
+              <div class="employee-content">
+                <div class="content">
+                  <div class="description ui input">
+                    <input type="text" value="{{ employee }}" #editedValue />
+                  </div>
+                </div>
+              </div>
+              <div class="employee-buttons">
+                <button
+                  class="ui button"
+                  (click)="saveEmployee(editedValue.value, i)"
+                >
+                  Save
+                </button>
+                <button class="ui button" (click)="dismissEmployee()">
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="ui segment">
+      <h3>
+        Number of employees:
+        <span style="font-weight: normal">{{
+          (employees | async).length
+        }}</span>
+      </h3>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="(employees | async).length === 0">
+    <div class="ui segment">
+      <h3>List of employee is empty! Please add employee.</h3>
+    </div>
+  </ng-container>
+</div>

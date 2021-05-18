@@ -1,0 +1,5 @@
+.daily-icons {
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
+}

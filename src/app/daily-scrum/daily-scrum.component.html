@@ -1,0 +1,123 @@
+<app-meni></app-meni>
+<div class="ui segment">
+  <form [formGroup]="addEmployeeScrumForm" (ngSubmit)="addEmployeeScrum()">
+    <div class="ui grid">
+      <div class="row">
+        <div class="seven wide column">
+          <div class="ui fluid icon input">
+            <input
+              type="text"
+              placeholder="Add name..."
+              formControlName="name"
+            />
+            <i class="user icon"></i>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <div class="ui fluid icon input">
+            <input
+              type="time"
+              placeholder="Add time..."
+              formControlName="time"
+            />
+            <i class="time icon"></i>
+          </div>
+        </div>
+        <div class="two wide column">
+          <button
+            class="ui button"
+            type="submit"
+            [disabled]="addEmployeeScrumForm.invalid"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form [formGroup]="searchEmployeeScrumForm">
+    <div class="ui grid">
+      <div class="row">
+        <div class="fourteen wide column">
+          <div class="ui fluid icon input">
+            <input
+              type="text"
+              placeholder="Searh employee..."
+              formControlName="searchNameScrum"
+            />
+            <i class="search icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="ui segment" *ngIf="(dailys | async).length > 0">
+    <h3>List of deilys table:</h3>
+    <table class="ui celled table">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Name of employee</th>
+          <th>Time of arrival</th>
+          <th>Arrived on time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let daily of dailys
+              | async
+              | searchfilterdaily
+                : searchEmployeeScrumForm.controls.searchNameScrum.value;
+            let i = index
+          "
+        >
+          <ng-container *ngIf="i !== dailyMode">
+            <td class="daily-icons">
+              <span (click)="editDelay(i)"><i class="edit icon"></i></span>
+              <span (click)="deleteDelay(i)"
+                ><i class="user times icon"></i
+              ></span>
+            </td>
+            <td>{{ daily.name }}</td>
+            <td>{{ daily.time }}</td>
+            <td>{{ daily.onTime }}</td>
+          </ng-container>
+          <ng-container *ngIf="i === dailyMode">
+            <td class="daily-icons">
+              <span
+                (click)="
+                  saveDaily(i, editedDailyName.value, editedDailyTime.value)
+                "
+                ><i class="save icon"></i
+              ></span>
+              <span (click)="dismissDelay()"><i class="close icon"></i></span>
+            </td>
+            <td>
+              <div class="ui input">
+                <input type="text" value="{{ daily.name }}" #editedDailyName />
+              </div>
+            </td>
+            <td>
+              <div class="ui input">
+                <input type="text" value="{{ daily.time }}" #editedDailyTime />
+              </div>
+            </td>
+            <td>{{ daily.onTime }}</td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ui segment">
+      <h3>
+        Number of rows:
+        <span style="font-weight: normal">{{ (dailys | async).length }}</span>
+      </h3>
+    </div>
+  </div>
+  <div class="ui segment" *ngIf="(dailys | async).length === 0">
+    <h3>Table is empty!</h3>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.employee {
+  display: flex;
+  justify-content: space-between;
+}
+
+.employee-content {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+.employee-buttons {
+  display: flex;
+  align-items: center;
+  text-align: right;
+}
