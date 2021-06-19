@@ -1,11 +1,7 @@
 import { DailyActionTypes } from '../actions/dailys.action';
 
 export function DailysReducer(
-  state = [
-    { name: 'John Doe', time: '8:00', onTime: 'Yes' },
-    { name: 'Chloe Doe', time: '9:00', onTime: 'No' },
-    { name: 'John Smith', time: '8:30', onTime: 'Yes' },
-  ],
+  state = [],
   action
 ) {
   switch (action.type) {
@@ -27,6 +23,8 @@ export function DailysReducer(
             }
           : el
       );
+      case DailyActionTypes.GET_DAILY:
+        return [...action.payload];
     default:
       return state;
   }

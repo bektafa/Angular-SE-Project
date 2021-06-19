@@ -13,6 +13,13 @@ import { ModeReducer } from './store/reducers/mode.reducer';
 import { SearchfilterPipe } from './searchfilter.pipe';
 import { DailysReducer } from './store/reducers/dailys.reducer';
 import { SearchfilterdailyPipe } from './searchfilterdaily.pipe';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+
+
+
 
 @NgModule({
   declarations: [
@@ -26,13 +33,17 @@ import { SearchfilterdailyPipe } from './searchfilterdaily.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MatSelectModule,
+    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     StoreModule.forRoot({
       employees: EmployeesReducer,
       mode: ModeReducer,
       dailys: DailysReducer,
     }),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

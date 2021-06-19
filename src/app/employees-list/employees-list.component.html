@@ -61,7 +61,7 @@
               <div class="employee-content">
                 <div class="content">
                   <div class="description">
-                    {{ i + 1 }}. {{ employee | titlecase }}
+                    {{ i + 1 }}. {{ employee.name | titlecase }}
                   </div>
                 </div>
               </div>
@@ -80,14 +80,14 @@
               <div class="employee-content">
                 <div class="content">
                   <div class="description ui input">
-                    <input type="text" value="{{ employee }}" #editedValue />
+                    <input type="text" value="{{ employee.name }}" #editedValue />
                   </div>
                 </div>
               </div>
               <div class="employee-buttons">
                 <button
                   class="ui button"
-                  (click)="saveEmployee(editedValue.value, i)"
+                  (click)="saveEmployee(editedValue.value, i, employee)"
                 >
                   Save
                 </button>

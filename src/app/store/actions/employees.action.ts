@@ -4,6 +4,7 @@ export enum EmplyeesActionTypes {
   ADD_EMPLOYEE = 'ADD_EMPLOYEE',
   DELETE_EMPLOYEE = 'DELETE_EMPLOYEE',
   EDIT_EMPLOYEE = 'EDIT_EMPLOYEE',
+  GET_EMPLOYEES = 'GET_EMPLOYEES'
 }
 
 export class AddEmployee implements Action {
@@ -21,4 +22,8 @@ export class EditEmployee implements Action {
   constructor(public value, public index) {}
 }
 
-export type EmployeesAction = AddEmployee | DeleteEmployee | EditEmployee;
+export class GetEmployees implements Action {
+  readonly type = EmplyeesActionTypes.GET_EMPLOYEES;
+  constructor(public payload) {}
+}
+export type EmployeesAction = AddEmployee | DeleteEmployee | EditEmployee | GetEmployees;

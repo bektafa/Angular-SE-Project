@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { AppState } from '../app.state';
 import {
   AddDayily,
   DeleteDaily,
   EditDaily,
+  GetDaily,
 } from '../store/actions/dailys.action';
 @Component({
   selector: 'app-daily-scrum',
@@ -16,6 +18,7 @@ import {
 export class DailyScrumComponent implements OnInit {
   dailys: Observable<any>;
   dailyMode = false;
+  URL: string = "http://localhost:3000/api/";
 
   addEmployeeScrumForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -26,12 +29,40 @@ export class DailyScrumComponent implements OnInit {
     searchNameScrum: new FormControl('', [Validators.required]),
   });
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.dailys = this.store.select('dailys');
+    this.getDaily();
+
   }
 
+  getDaily(){
+    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
+    this.http.get(this.URL + 'arrivals' ,{'headers':headers}).toPromise().then((data:any)=>{
+      console.log(data)
+      this.store.dispatch(
+        
+        new GetDaily(data)
+      );
+    }).catch((err) => { 
+      console.log('00000' + err);
+  });
+  }
+
+  addDaily() {
+    this.store.dispatch(
+      new AddDayily(this.addEmployeeScrumForm.controls.name.value, this.addEmployeeScrumForm.controls.time.value, 1)
+    );
+    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'} 
+    const body=JSON.stringify({name:this.addEmployeeScrumForm.controls.name.value, time:this.addEmployeeScrumForm.controls.time.value});
+    this.http.post(this.URL + 'arrivals', body,{'headers':headers}).toPromise().then((data:any)=>{
+  });
+
+    this.addEmployeeScrumForm.reset();
+    
+  }
+/*
   addEmployeeScrum() {
     const time = this.addEmployeeScrumForm.controls.time.value;
     const hours = time.split(':')[0];
@@ -51,7 +82,7 @@ export class DailyScrumComponent implements OnInit {
       )
     );
   }
-
+*/
   deleteDelay(i) {
     this.store.dispatch(new DeleteDaily(i));
   }
