@@ -18,7 +18,7 @@ import {
 export class DailyScrumComponent implements OnInit {
   dailys: Observable<any>;
   dailyMode = false;
-  URL: string = "http://localhost:3000/api/";
+  URL: string = "https://immense-ridge-56936.herokuapp.com/api/";
 
   addEmployeeScrumForm = new FormGroup({
     name: new FormControl('', [Validators.required]),

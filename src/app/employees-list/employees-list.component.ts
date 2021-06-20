@@ -21,7 +21,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 export class EmployeesListComponent implements OnInit {
   employees: Observable<any>;
   mode: Observable<any>;
-  URL: string = "http://localhost:3000/api/";
+  URL: string = "https://immense-ridge-56936.herokuapp.com/api/";
 
   addEmployeeForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
