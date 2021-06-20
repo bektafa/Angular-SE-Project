@@ -77,7 +77,7 @@
           <ng-container *ngIf="i !== dailyMode">
             <td class="daily-icons">
               <span (click)="editDelay(i)"><i class="edit icon"></i></span>
-              <span (click)="deleteDelay(i)"
+              <span (click)="deleteDaily(i, daily)"
                 ><i class="user times icon"></i
               ></span>
             </td>
@@ -89,7 +89,7 @@
             <td class="daily-icons">
               <span
                 (click)="
-                  saveDaily(i, editedDailyName.value, editedDailyTime.value)
+                  saveDaily(i, editedDailyName.value, editedDailyTime.value, daily)
                 "
                 ><i class="save icon"></i
               ></span>
