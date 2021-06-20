@@ -1,9 +1,6 @@
 import { DailyActionTypes } from '../actions/dailys.action';
 
-export function DailysReducer(
-  state = [],
-  action
-) {
+export function DailysReducer(state = [], action) {
   switch (action.type) {
     case DailyActionTypes.ADD_DAILY:
       return [
@@ -23,8 +20,8 @@ export function DailysReducer(
             }
           : el
       );
-      case DailyActionTypes.GET_DAILY:
-        return [...action.payload];
+    case DailyActionTypes.GET_DAILY:
+      return [...action.payload];
     default:
       return state;
   }

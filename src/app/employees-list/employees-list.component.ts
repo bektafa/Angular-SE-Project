@@ -10,8 +10,11 @@ import {
   GetEmployees,
 } from '../store/actions/employees.action';
 import { SetMode } from '../store/actions/mode.action';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
-
+import {
+  HttpClient,
+  HttpClientModule,
+  HttpHeaders,
+} from '@angular/common/http';
 
 @Component({
   selector: 'app-employees-list',
@@ -21,7 +24,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 export class EmployeesListComponent implements OnInit {
   employees: Observable<any>;
   mode: Observable<any>;
-  URL: string = "https://immense-ridge-56936.herokuapp.com/api/";
+  URL: string = 'https://immense-ridge-56936.herokuapp.com/api/';
 
   addEmployeeForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -39,34 +42,50 @@ export class EmployeesListComponent implements OnInit {
     this.getEmployees();
   }
 
-  getEmployees(){
-    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
-    this.http.get(this.URL + 'users' ,{'headers':headers}).toPromise().then((data:any)=>{
-      this.store.dispatch(
-        new GetEmployees(data)
-      );
-    })
+  getEmployees() {
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    this.http
+      .get(this.URL + 'users', { headers: headers })
+      .toPromise()
+      .then((data: any) => {
+        this.store.dispatch(new GetEmployees(data));
+      });
   }
 
   addEmployee() {
     this.store.dispatch(
       new AddEmployee(this.addEmployeeForm.controls.name.value)
     );
-    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
-    const body=JSON.stringify({name:this.addEmployeeForm.controls.name.value});
-    this.http.post(this.URL + 'users', body,{'headers':headers}).toPromise().then((data:any)=>{
-      console.log(data)
-    })
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    const body = JSON.stringify({
+      name: this.addEmployeeForm.controls.name.value,
+    });
+    this.http
+      .post(this.URL + 'users', body, { headers: headers })
+      .toPromise()
+      .then((data: any) => {
+        console.log(data);
+      });
     this.addEmployeeForm.reset();
-    
   }
 
   deleteEmployee(employee) {
-    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
-    this.http.delete(this.URL + 'users/' + employee._id ,{'headers':headers}).toPromise().then((data:any)=>{
-      this.store.dispatch(new DeleteEmployee(employee));
-    })
-    
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    this.http
+      .delete(this.URL + 'users/' + employee._id, { headers: headers })
+      .toPromise()
+      .then((data: any) => {
+        this.store.dispatch(new DeleteEmployee(employee));
+      });
   }
 
   editEmployee(i) {
@@ -74,12 +93,18 @@ export class EmployeesListComponent implements OnInit {
   }
 
   saveEmployee(editedValue, index, employee) {
-    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
-    const body=JSON.stringify({name: editedValue});
-    this.http.put(this.URL + 'users/' + employee._id , body, {'headers':headers}).toPromise().then((data:any)=>{
-      this.store.dispatch(new EditEmployee(editedValue, index));
-    this.dismissEmployee();
-    })
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    const body = JSON.stringify({ name: editedValue });
+    this.http
+      .put(this.URL + 'users/' + employee._id, body, { headers: headers })
+      .toPromise()
+      .then((data: any) => {
+        this.store.dispatch(new EditEmployee(editedValue, index));
+        this.dismissEmployee();
+      });
   }
 
   dismissEmployee() {

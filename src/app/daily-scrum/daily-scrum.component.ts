@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HttpHeaders,
+} from '@angular/common/http';
 import { AppState } from '../app.state';
 import {
   AddDayily,
@@ -18,7 +22,7 @@ import {
 export class DailyScrumComponent implements OnInit {
   dailys: Observable<any>;
   dailyMode = false;
-  URL: string = "https://immense-ridge-56936.herokuapp.com/api/";
+  URL: string = 'https://immense-ridge-56936.herokuapp.com/api/';
 
   addEmployeeScrumForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -34,35 +38,49 @@ export class DailyScrumComponent implements OnInit {
   ngOnInit(): void {
     this.dailys = this.store.select('dailys');
     this.getDaily();
-
   }
 
-  getDaily(){
-    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
-    this.http.get(this.URL + 'arrivals' ,{'headers':headers}).toPromise().then((data:any)=>{
-      console.log(data)
-      this.store.dispatch(
-        
-        new GetDaily(data)
-      );
-    }).catch((err) => { 
-      console.log('00000' + err);
-  });
+  getDaily() {
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    this.http
+      .get(this.URL + 'arrivals', { headers: headers })
+      .toPromise()
+      .then((data: any) => {
+        console.log(data);
+        this.store.dispatch(new GetDaily(data));
+      })
+      .catch((err) => {
+        console.log('00000' + err);
+      });
   }
 
   addDaily() {
     this.store.dispatch(
-      new AddDayily(this.addEmployeeScrumForm.controls.name.value, this.addEmployeeScrumForm.controls.time.value, 1)
+      new AddDayily(
+        this.addEmployeeScrumForm.controls.name.value,
+        this.addEmployeeScrumForm.controls.time.value,
+        1
+      )
     );
-    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'} 
-    const body=JSON.stringify({name:this.addEmployeeScrumForm.controls.name.value, time:this.addEmployeeScrumForm.controls.time.value});
-    this.http.post(this.URL + 'arrivals', body,{'headers':headers}).toPromise().then((data:any)=>{
-  });
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    const body = JSON.stringify({
+      name: this.addEmployeeScrumForm.controls.name.value,
+      time: this.addEmployeeScrumForm.controls.time.value,
+    });
+    this.http
+      .post(this.URL + 'arrivals', body, { headers: headers })
+      .toPromise()
+      .then((data: any) => {});
 
     this.addEmployeeScrumForm.reset();
-    
   }
-/*
+  /*
   addEmployeeScrum() {
     const time = this.addEmployeeScrumForm.controls.time.value;
     const hours = time.split(':')[0];
@@ -84,13 +102,19 @@ export class DailyScrumComponent implements OnInit {
   }
 */
 
-
-deleteDaily(i, daily) {
-  const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
-  this.http.delete(this.URL + 'arrivals/' + daily._id ,{'headers':headers}).toPromise().then((data:any)=>{
-    this.store.dispatch(new DeleteDaily(i));
-  })}
-/* 
+  deleteDaily(i, daily) {
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    this.http
+      .delete(this.URL + 'arrivals/' + daily._id, { headers: headers })
+      .toPromise()
+      .then((data: any) => {
+        this.store.dispatch(new DeleteDaily(i));
+      });
+  }
+  /* 
 deleteDelay(i) {
     this.store.dispatch(new DeleteDaily(i));
   }
@@ -100,14 +124,20 @@ deleteDelay(i) {
   }
 
   saveDaily(index, name, time, daily) {
-    const headers = { 'Access-Control-Allow-Origin': '*', 'content-type': 'application/json'}  
-    const body=JSON.stringify({name: name, time: time});
-    this.http.put(this.URL + 'arrivals/' + daily._id , body, {'headers':headers}).toPromise().then((data:any)=>{
-      this.store.dispatch(new EditDaily(index, name, time, 'Yes' ));
-    this.dismissDelay();
-    })
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    };
+    const body = JSON.stringify({ name: name, time: time });
+    this.http
+      .put(this.URL + 'arrivals/' + daily._id, body, { headers: headers })
+      .toPromise()
+      .then((data: any) => {
+        this.store.dispatch(new EditDaily(index, name, time, 'Yes'));
+        this.dismissDelay();
+      });
   }
-/*
+  /*
   saveDaily(i, name, time) {
     const hours = time.split(':')[0];
     const minutes = time.split(':')[1];

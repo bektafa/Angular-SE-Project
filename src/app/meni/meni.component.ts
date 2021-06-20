@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-meni',
   templateUrl: './meni.component.html',
-  styleUrls: ['./meni.component.css']
+  styleUrls: ['./meni.component.css'],
 })
 export class MeniComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
